@@ -120,4 +120,4 @@
 (global-set-key (kbd "M-s-c") 'cider-repl-clear-buffer)
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
-(global-set-key (kbd "C-c g") 'magit)
+(global-set-key (kbd "C-x g") 'magit)
