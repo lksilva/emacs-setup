@@ -81,9 +81,9 @@
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
 
-;;(add-hook 'clojure-mode-hook 'lsp)
-;;(add-hook 'clojurescript-mode-hook 'lsp)
-;;(add-hook 'clojurec-mode-hook 'lsp)
+(add-hook 'clojure-mode-hook 'lsp)
+(add-hook 'clojurescript-mode-hook 'lsp)
+(add-hook 'clojurec-mode-hook 'lsp)
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
@@ -100,6 +100,10 @@
 ;; Use SHIFT+arrow to move between the windows
 (windmove-default-keybindings)
 
+;; Projectile project discovery
+
+(setq projectile-project-search-path '("~/Development/"))
+
 ;; Autoload
 ;; Paredit
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
@@ -109,14 +113,9 @@
 (add-hook 'lisp-mode-hook             #'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
 (add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-(add-hook 'clojure-mode-hook #'paredit-mode)
-(add-hook 'clojurescript-mode-hook #'paredit-mode)
-(add-hook 'clojurec-mode-hook #'paredit-mode)
-
-(global-display-line-numbers-mode)
 
 (global-set-key (kbd "M-s-p") 'projectile-switch-open-project)
-(global-set-key (kbd "M-s-f") 'helm-find-files)
+(global-set-key (kbd "M-s-o") 'helm-find-files)
 (global-set-key (kbd "M-s-c") 'cider-repl-clear-buffer)
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
