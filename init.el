@@ -120,3 +120,6 @@
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
 (global-set-key (kbd "C-x g") 'magit)
+
+(custom-set-variables
+ '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))

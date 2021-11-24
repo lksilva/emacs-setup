@@ -555,7 +555,8 @@ before packages are loaded."
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'scheme-mode-hook #'enable-paredit-mode)
   ;; ripgrep
-  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag))
+  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+)
 
 
 ;; Do not write anything past this comment. This is where Emacs will
