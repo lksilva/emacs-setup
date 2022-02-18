@@ -77,6 +77,8 @@
 ;; Custom setup
 (setq package-selected-packages '(clojure-mode lsp-mode cider lsp-treemacs flycheck company))
 
+(setq mode-require-final-newline nil)
+
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
   (package-refresh-contents)
   (mapc #'package-install package-selected-packages))
@@ -89,11 +91,16 @@
       read-process-output-max (* 1024 1024)
       treemacs-space-between-root-nodes nil
       company-minimum-prefix-length 1
+      lsp-dart-sdk-dir "$HOME/sdk-flutter/bin/cache/dart-sdk/"
+      lsp-dart-flutter-sdk-dir "$HOME/sdk-flutter/"
+      lsp-treemacs-sync-mode 1
       lsp-lens-enable t
       lsp-signature-auto-activate nil
-                                        ; lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-                                        ; lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
       )
+
+(with-eval-after-load 'projectile
+  (add-to-list 'projectile-project-root-files-bottom-up "pubspec.yaml")
+  (add-to-list 'projectile-project-root-files-bottom-up "BUILD"))
 
 ;; Overring keyboard
 
@@ -120,6 +127,8 @@
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
 (global-set-key (kbd "C-x g") 'magit)
+(global-set-key (kbd "s-C") 'paredit-copy-as-kill)
+(global-set-key (kbd "s-d") 'spacemacs/jump-to-definition)
 
 (custom-set-variables
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))

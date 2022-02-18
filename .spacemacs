@@ -32,7 +32,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(yaml
+     html
      javascript
      clojure
      ;; ----------------------------------------------------------------
@@ -55,7 +56,17 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
-     treemacs)
+     treemacs
+     (dart :variables
+           dart-backend 'lsp
+           lsp-dart-sdk-dir "$HOME/sdk-flutter/bin/cache/dart-sdk/"
+           lsp-enable-on-type-formatting t)
+     ;; dart-mode
+     ;; lsp
+     ;; flycheck
+     ;; company
+     ;; lsp-ui-mode
+)
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -556,6 +567,8 @@ before packages are loaded."
   (add-hook 'scheme-mode-hook #'enable-paredit-mode)
   ;; ripgrep
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+  ;; ripgrep
+  ;; (setq helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
 )
 
 
@@ -571,8 +584,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
-   '(web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode bui counsel-gtags counsel swiper ivy add-node-modules-path magit lsp-ui clojure-mode lsp-mode cider lsp-treemacs flycheck company)))
+   '(yaml-mode helm-gitignore lsp-dart flutter dart-server web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data web-beautify tern prettier-js npm-mode nodejs-repl livid-mode skewer-mode js2-refactor yasnippet multiple-cursors js2-mode js-doc import-js grizzl impatient-mode htmlize simple-httpd helm-gtags ggtags dap-mode bui counsel-gtags counsel swiper ivy add-node-modules-path magit lsp-ui clojure-mode lsp-mode cider lsp-treemacs flycheck company)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
