@@ -370,51 +370,50 @@
          ("M-p" . highlight-symbol-prev)))
 
 ;; ――――――――――――――――――――――――――――――――――――――― Clojure ――――――――――――――――――――――――――――――――――――――
-(use-package clojure-mode
-  :doc "A major mode for editing Clojure code"
-  :ensure t)
+;; (use-package clojure-mode
+;;   :doc "A major mode for editing Clojure code"
+;;   :ensure t)
 
-(use-package cider
-  :doc "Integration with a Clojure REPL cider"
-  ;; Cider has reached 0.20.x but clj-refactor only supports upto 0.18.0. Manually
-  ;; download cider-0.18.0 by checking out the tag on github and place it in
-  ;; `~/.emacs.d/elpa/` so that the `load-path` tag below, works.
-  :load-path "~/.emacs.d/elpa/cider-0.18.0"
-  :init
-  ;; Enable minibuffer documentation
-  (add-hook 'cider-mode-hook 'eldoc-mode)
-  :config
-  ;; Go right to the REPL buffer when it's finished connecting
-  (setq cider-repl-pop-to-buffer-on-connect t)
-  ;; When there's a cider error, show its buffer and switch to it
-  (setq cider-show-error-buffer t)
-  (setq cider-auto-select-error-buffer t)
-  ;; Where to store the cider history.
-  (setq cider-repl-history-file "~/.emacs.d/cider-history")
-  ;; Wrap when navigating history.
-  (setq cider-repl-wrap-history t)
-  ;; Attempt to jump at the symbol under the point without having to press RET
-  (setq cider-prompt-for-symbol nil)
-  ;; Always pretty print
-  (setq cider-repl-use-pretty-printing t)
-  ;; Enable logging client-server messaging in *nrepl-messages* buffer
-  (setq nrepl-log-messages nil)
-  :diminish nil)
+;; (use-package cider
+;;   :doc "Integration with a Clojure REPL cider"
+;;   :config
+;;   ;; Go right to the REPL buffer when it's finished connecting
+;;   (setq cider-repl-pop-to-buffer-on-connect t)
+;;   ;; When there's a cider error, show its buffer and switch to it
+;;   (setq cider-show-error-buffer t)
+;;   (setq cider-auto-select-error-buffer t)
+;;   ;; Where to store the cider history.
+;;   (setq cider-repl-history-file "~/.emacs.d/cider-history")
+;;   ;; Wrap when navigating history.
+;;   (setq cider-repl-wrap-history t)
+;;   ;; Attempt to jump at the symbol under the point without having to press RET
+;;   (setq cider-prompt-for-symbol nil)
+;;   ;; Always pretty print
+;;   (setq cider-repl-use-pretty-printing t)
+;;   ;; Enable logging client-server messaging in *nrepl-messages* buffer
+;;   (setq nrepl-log-messages nil)
+;;   :diminish nil)
 
-(use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  :hook ((clojure-mode . lsp))
-  :commands lsp)
+;; (use-package lsp-mode
+;;   :init
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :hook ((clojure-mode . lsp))
+;;   :commands lsp)
 
-(use-package lsp-ui :commands lsp-ui-mode)
+;; (use-package lsp-ui :commands lsp-ui-mode)
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+;; (use-package flycheck
+;;   :ensure t
+;;   :init (global-flycheck-mode))
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+(setq package-selected-packages '(clojure-mode lsp-mode cider lsp-treemacs flycheck company))
+
+(when (cl-find-if-not #'package-installed-p package-selected-packages)
+  (package-refresh-contents)
+  (mapc #'package-install package-selected-packages))
 
 (add-hook 'clojure-mode-hook 'lsp)
 (add-hook 'clojurescript-mode-hook 'lsp)
@@ -533,8 +532,19 @@
       (set-frame-font "Fira Code Retina"))))
 
 
+;; ――――――――――――――――――――――――――――――――――――― Custom setup ―――――――――――――――――――――――――――――――――――――
 (display-line-numbers-mode t)
+;; Use SHIFT+arrow to move between the windows
+(windmove-default-keybindings)
 
 ;; ――――――――――――――――――――――――――――――――――――――― Keybinds ―――――――――――――――――――――――――――――――――――――――
 (global-set-key (kbd "C-;") 'toggle-comment-on-line)
 (global-set-key (kbd "C-c ;") 'comment-pretty)
+(global-set-key (kbd "M-s-p") 'projectile-switch-project)
+(global-set-key (kbd "M-s-p-p") 'projectile-switch-open-project)
+(global-set-key (kdb "M-s-a") 'projectile-add-known-project)
+(global-set-key (kbd "M-s-c") 'cider-repl-clear-buffer)
+(global-set-key (kbd "s-L") 'cider-eval-file)
+(global-set-key (kbd "s-N") 'cider-repl-set-ns)
+(global-set-key (kbd "C-x g") 'magit)
+(global-set-key (kbd "s-C") 'paredit-copy-as-kill)
