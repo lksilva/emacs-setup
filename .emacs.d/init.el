@@ -47,20 +47,6 @@
 ;; Change all yes/no questions to y/n type
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; Make the command key behave as 'meta'
-;; (when (eq system-type 'darwin)
-;;  (setq mac-command-modifier 'meta))
-
-;; `C-x o' is a 2 step key binding. `M-o' is much easier.
-;; (global-set-key (kbd "M-o") 'other-window)
-
-;; Delete whitespace just when a file is saved.
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; Enable narrowing commands.
-;; (put 'narrow-to-region 'disabled nil)
-;; (put 'narrow-to-page 'disabled nil)
-
 ;; Display column number in mode line.
 (column-number-mode t)
 
@@ -194,18 +180,6 @@
   :ensure t
   :bind ("C-x g" . magit-status))
 
-;;(use-package avy
-  ;; :doc "Jump to things."
-  ;; :ensure t
-  ;; :bind (("C-;" . avy-goto-char)
-         ;; ("C-c C-;" . avy-goto-char-2)
-         ;; ("M-g w" . avy-goto-word-1)))
-
-;; (use-package dumb-jump
-  ;; :doc "Dumb ag version of M-."
-  ;; :ensure t
-  ;; :bind ("C-M-." . dumb-jump-go))
-
 (use-package which-key
   :doc "Prompt the next possible key bindings after a short wait"
   :ensure t
@@ -259,35 +233,10 @@
   :bind (("C-x C-g" . git-gutter))
   :diminish nil)
 
-(use-package region-bindings-mode
-  :doc "Define bindings only when a region is selected."
-  :ensure t
-  :config
-  (region-bindings-mode-enable))
-
-(use-package multiple-cursors
-  :doc "A minor mode for editing with multiple cursors"
-  :ensure t
-  :config
-  (setq mc/always-run-for-all t)
-  :bind
-  ;; Use multiple cursor bindings only when a region is active
-  (:map region-bindings-mode-map
-        ("C->" . mc/mark-next-like-this)
-        ("C-<" . mc/mark-previous-like-this)
-        ("C-c a" . mc/mark-all-like-this)
-        ("C-c h" . mc-hide-unmatched-lines-mode)
-        ("C-c l" . mc/edit-lines)))
-
 (use-package esup
   :doc "Emacs Start Up Profiler (esup) benchmarks Emacs
         startup time without leaving Emacs."
   :ensure t)
-
-(use-package define-word
-  :doc "Dictionary in Emacs."
-  :ensure t
-  :bind ("C-c w" . define-word-at-point))
 
 (when (eq system-type 'darwin)
   (use-package exec-path-from-shell
@@ -370,45 +319,7 @@
          ("M-p" . highlight-symbol-prev)))
 
 ;; ――――――――――――――――――――――――――――――――――――――― Clojure ――――――――――――――――――――――――――――――――――――――
-;; (use-package clojure-mode
-;;   :doc "A major mode for editing Clojure code"
-;;   :ensure t)
-
-;; (use-package cider
-;;   :doc "Integration with a Clojure REPL cider"
-;;   :config
-;;   ;; Go right to the REPL buffer when it's finished connecting
-;;   (setq cider-repl-pop-to-buffer-on-connect t)
-;;   ;; When there's a cider error, show its buffer and switch to it
-;;   (setq cider-show-error-buffer t)
-;;   (setq cider-auto-select-error-buffer t)
-;;   ;; Where to store the cider history.
-;;   (setq cider-repl-history-file "~/.emacs.d/cider-history")
-;;   ;; Wrap when navigating history.
-;;   (setq cider-repl-wrap-history t)
-;;   ;; Attempt to jump at the symbol under the point without having to press RET
-;;   (setq cider-prompt-for-symbol nil)
-;;   ;; Always pretty print
-;;   (setq cider-repl-use-pretty-printing t)
-;;   ;; Enable logging client-server messaging in *nrepl-messages* buffer
-;;   (setq nrepl-log-messages nil)
-;;   :diminish nil)
-
-;; (use-package lsp-mode
-;;   :init
-;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   :hook ((clojure-mode . lsp))
-;;   :commands lsp)
-
-;; (use-package lsp-ui :commands lsp-ui-mode)
-
-;; (use-package flycheck
-;;   :ensure t
-;;   :init (global-flycheck-mode))
-
-;; (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
+;; Install all packages needed to clojure environment run properly
 (setq package-selected-packages '(clojure-mode lsp-mode cider lsp-treemacs flycheck company))
 
 (when (cl-find-if-not #'package-installed-p package-selected-packages)
@@ -421,14 +332,10 @@
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
-      company-minimum-prefix-length 1
-      ; lsp-enable-indentation nil ; uncomment to use cider indentation instead of lsp
-      ; lsp-enable-completion-at-point nil ; uncomment to use cider completion instead of lsp
-      )
+      company-minimum-prefix-length 1)
 
 ;; ―――――――――――――――――――――――――――――――――――――――― Theme ―――――――――――――――――――――――――――――――――――――――
-(use-package monokai-alt-theme
-  :doc "Just another theme"
+(use-package monokai-alt-theme  :doc "Just another theme"
   :ensure t
   :disabled t
   :config
@@ -531,20 +438,32 @@
 
       (set-frame-font "Fira Code Retina"))))
 
-
 ;; ――――――――――――――――――――――――――――――――――――― Custom setup ―――――――――――――――――――――――――――――――――――――
-(display-line-numbers-mode t)
 ;; Use SHIFT+arrow to move between the windows
 (windmove-default-keybindings)
+(global-display-line-numbers-mode)
+
+(defun open-eshell-in-bottom ()
+  (interactive)
+  (split-window)
+  (eshell))
+
+(defun open-eshell ()
+  (interactive)
+  (let* ((lines (window-body-height))
+         (new-window (split-window-vertically (floor (* 0.7 lines)))))
+    (select-window new-window)
+    (eshell "eshell")))
 
 ;; ――――――――――――――――――――――――――――――――――――――― Keybinds ―――――――――――――――――――――――――――――――――――――――
 (global-set-key (kbd "C-;") 'toggle-comment-on-line)
 (global-set-key (kbd "C-c ;") 'comment-pretty)
 (global-set-key (kbd "M-s-p") 'projectile-switch-project)
-(global-set-key (kbd "M-s-p-p") 'projectile-switch-open-project)
-(global-set-key (kdb "M-s-a") 'projectile-add-known-project)
+(global-set-key (kbd "M-s-o") 'projectile-switch-open-project)
+(global-set-key (kbd "M-s-a") 'projectile-add-known-project)
 (global-set-key (kbd "M-s-c") 'cider-repl-clear-buffer)
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
 (global-set-key (kbd "C-x g") 'magit)
 (global-set-key (kbd "s-C") 'paredit-copy-as-kill)
+(global-set-key (kbd "C-c e") 'open-eshell)
