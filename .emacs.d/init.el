@@ -335,55 +335,6 @@
       company-minimum-prefix-length 1)
 
 ;; ―――――――――――――――――――――――――――――――――――――――― Theme ―――――――――――――――――――――――――――――――――――――――
-(use-package monokai-alt-theme  :doc "Just another theme"
-  :ensure t
-  :disabled t
-  :config
-  (load-theme 'monokai-alt t)
-  ;; The cursor color in this theme is very confusing.
-  ;; Change it to green
-  (set-cursor-color "#9ce22e")
-  ;; Show (line,column) in mode-line
-  (column-number-mode t)
-  ;; Customize theme
-  (custom-theme-set-faces
-   'user ;; `user' refers to user settings applied via Customize.
-   '(font-lock-comment-face ((t (:foreground "tan3"))))
-   '(font-lock-doc-face ((t (:foreground "tan3"))))
-   '(mode-line ((t (:background "#9ce22e"
-                    :foreground "black"
-                    :box (:line-width 3 :color "#9ce22e")
-                    :weight normal))))
-   '(mode-line-buffer-id ((t (:foreground "black" :weight bold))))
-   '(mode-line-inactive ((t (:background "#9ce22e"
-                             :foreground "grey50"
-                             :box (:line-width 3 :color "#9ce22e")
-                             :weight normal))))
-   '(org-done ((t (:foreground "chartreuse1" :weight bold))))
-   '(org-level-1 ((t (:foreground "RoyalBlue1" :weight bold))))
-   '(org-tag ((t (:foreground "#9ce22e" :weight bold)))))
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(font-lock-comment-face ((((class color) (min-colors 89))
-                              (:foreground "#b2b2b2" :slant italic))))
-   '(font-lock-doc-face ((((class color) (min-colors 89))
-                          (:foreground "#cc0000"))))
-   '(mode-line ((((class color) (min-colors 89))
-                 (:box nil :background "#5fafd7" :foreground "#ffffff"))))
-   '(mode-line-buffer-id ((((class color) (min-colors 89))
-                           (:box nil :foreground "#3a3a3a" :background nil :bold t))))
-   '(mode-line-inactive ((((class color) (min-colors 89))
-                          (:box nil :background "#dadada" :foreground "#9e9e9e"))))
-   '(org-done ((((class color) (min-colors 89))
-                (:bold t :weight bold :foreground "#008700" :background "#d7ff87"
-                 :box (:line-width 1 :style none)))))
-   '(org-level-1 ((((class color) (min-colors 89)) (:bold t :foreground "#5fafd7"))))
-   '(org-tag ((((class color) (min-colors 89))
-               (:background "#9e9e9e" :foreground "#ffffff" :bold t :weight bold))))))
-
 (use-package ewal-spacemacs-themes
   :ensure t
   :config
@@ -443,10 +394,19 @@
 (windmove-default-keybindings)
 (global-display-line-numbers-mode)
 
-(defun open-eshell-in-bottom ()
-  (interactive)
-  (split-window)
-  (eshell))
+(defun overwrite-theme ()
+    (progn
+      (set-cursor-color "dark orange")
+      (set-mouse-color "dark orange")))
+
+;; change color of the current line
+;; (custom-set-faces
+;; '(hl-line ((t (:background "#98fb98")))))
+
+(custom-set-faces
+ '(region ((t (:background "#98fb98" :foreground "black")))))
+
+(overwrite-theme)
 
 (defun open-eshell ()
   (interactive)
