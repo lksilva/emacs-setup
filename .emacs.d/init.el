@@ -421,6 +421,7 @@
 (global-set-key (kbd "M-s-p") 'projectile-switch-project)
 (global-set-key (kbd "M-s-o") 'projectile-switch-open-project)
 (global-set-key (kbd "M-s-a") 'projectile-add-known-project)
+(global-set-key (kbd "M-s-f") 'projectile--find-file)
 (global-set-key (kbd "M-s-c") 'cider-repl-clear-buffer)
 (global-set-key (kbd "s-L") 'cider-eval-file)
 (global-set-key (kbd "s-N") 'cider-repl-set-ns)
